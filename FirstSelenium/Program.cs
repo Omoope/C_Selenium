@@ -8,10 +8,10 @@ using System;
 
 namespace FirstSelenium
 {
-   public class Program
+   public class Program:Selenium_project
     {
         //private static IWebDriver driver;
-        Selenium_project test = new Selenium_project();
+        //Selenium_project test = new Selenium_project();
         
         static void Main(string[] args)
         {  
@@ -21,7 +21,7 @@ namespace FirstSelenium
         public void Init()
         {
             String Url = "https://opensource-demo.orangehrmlive.com/";
-           test.Setup("ie", Url);
+           Setup("chrome", Url);
           //((IJavaScriptExecutor)driver).ExecuteScript("window.resizeTo(1024, 768)");
 
         }
@@ -36,13 +36,13 @@ namespace FirstSelenium
         [Test] 
         public void Add()
         {
-            test.Signin("Admin", "admin123");
+            Signin("Admin", "admin123");
         }
 
         [TearDown]
         public void Cleanup()
         {
-            test.closeBrowser();
+            closeBrowser();
             Console.WriteLine("----browser closed");
         }
     }
