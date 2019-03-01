@@ -3,15 +3,15 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Remote;
 using System;
 
 namespace FirstSelenium
 {
    public class Program
     {
-
-        static IWebDriver driver = new ChromeDriver();
-
+        //private static IWebDriver driver;
+        Selenium_project test = new Selenium_project();
         
         static void Main(string[] args)
         {  
@@ -20,19 +20,31 @@ namespace FirstSelenium
         [SetUp]
         public void Init()
         {
-           
-            driver.Navigate().GoToUrl("https://testautomationpractice.blogspot.com/");
-        }
+            String Url = "https://opensource-demo.orangehrmlive.com/";
+           test.Setup("ie", Url);
+          //((IJavaScriptExecutor)driver).ExecuteScript("window.resizeTo(1024, 768)");
 
-        [Test]
+        }
+       /* [Test]
+        public void LoginWithNegativeinfo()
+        {
+            test.Signin("Admin", "Gooder");
+            Console.WriteLine("-----Login failed----");
+
+        }*/
+
+        [Test] 
         public void Add()
         {
-            driver.SwitchTo().Frame(0);
-            driver.FindElement(By.XPath("//*[@id='RESULT_TextField-5']")).SendKeys("Adedoyin");
+            test.Signin("Admin", "admin123");
         }
 
         [TearDown]
-        public void Cleanup() => driver.Close();
+        public void Cleanup()
+        {
+            test.closeBrowser();
+            Console.WriteLine("----browser closed");
+        }
     }
 
 
@@ -46,23 +58,31 @@ namespace FirstSelenium
             if (browser.Equals("firefox"))
             {
                 Console.WriteLine("----Lunching the Firefox browser----");
+                
                 driver = new FirefoxDriver();
                 driver.Navigate().GoToUrl(url);
 
-                ((IJavaScriptExecutor)driver).ExecuteScript("window.resizeTo(1024, 768)");
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+
+                
 
             }
             if (browser.Equals("chrome"))
             {
                 Console.WriteLine("----Lunching the Chrome browser----");
                 driver = new ChromeDriver();
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
                 driver.Navigate().GoToUrl(url);
             }
 
             if (browser.Equals("ie"))
             {
                 Console.WriteLine("----Lunching the Internet Explorer browser----");
+
                 driver = new InternetExplorerDriver();
+                
+                           
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
                 driver.Navigate().GoToUrl(url);
             } 
 
@@ -72,21 +92,28 @@ namespace FirstSelenium
         public void Signin(String username, String password)
         {
             //Username Element
-            IWebElement usern = driver.FindElement(By.XPath(""));
+            IWebElement usern = driver.FindElement(By.Id("txtUsername"));
             usern.SendKeys(username);
 
             //password Element
-            IWebElement psw = driver.FindElement(By.XPath(""));
+            IWebElement psw = driver.FindElement(By.Id("txtPassword"));
             psw.SendKeys(password);
 
             //Submit button
-            IWebElement btn = driver.FindElement(By.XPath(""));
+            IWebElement btn = driver.FindElement(By.XPath("//*[@id='btnLogin']"));
             btn.Click();
+
+            
         }
 
         public void SignUp()
         {
             driver.FindElement(By.XPath("")).Click();
+        }
+
+        public void closeBrowser()
+        {
+            driver.Close();
         }
 
     }
