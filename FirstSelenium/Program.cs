@@ -13,6 +13,7 @@ namespace FirstSelenium
         //private static IWebDriver driver;
         //Selenium_project test = new Selenium_project();
         
+
         static void Main(string[] args)
         {  
         }
@@ -22,21 +23,17 @@ namespace FirstSelenium
         {
             String Url = "https://opensource-demo.orangehrmlive.com/";
            Setup("chrome", Url);
-          //((IJavaScriptExecutor)driver).ExecuteScript("window.resizeTo(1024, 768)");
+          
 
         }
-       /* [Test]
-        public void LoginWithNegativeinfo()
-        {
-            test.Signin("Admin", "Gooder");
-            Console.WriteLine("-----Login failed----");
-
-        }*/
 
         [Test] 
         public void Add()
         {
             Signin("Admin", "admin123");
+      
+
+
         }
 
         [TearDown]
